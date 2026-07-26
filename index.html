@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> أبو مستور </title>
+    <!-- استدعاء خط Cairo الأنيق -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* إعدادات الصفحة العامة */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            /* خلفية الموقع الكاملة: حط رابط صورتك هنا، ومغلفة بلون بنفسجي غامق فخم */
+            background: linear-gradient(rgba(10, 5, 20, 0.85), rgba(10, 5, 20, 0.92)), url('https://i.postimg.cc/fbyVGR7C/IMG-9638.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* الحاوية الرئيسية للموقع بتصميم الإطار المتوهج */
+        .main-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            gap: 20px;
+            background: rgba(13, 6, 24, 0.75);
+            border: 2px solid #9b59b6;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 0 40px rgba(155, 89, 182, 0.3), inset 0 0 20px rgba(155, 89, 182, 0.1);
+            backdrop-filter: blur(10px);
+            min-height: 620px;
+        }
+
+        /* القائمة الجانبية (يمين الشاشة) */
+        .sidebar {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-left: 2px solid rgba(155, 89, 182, 0.3);
+            padding-left: 20px;
+        }
+
+        .server-brand {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(155, 89, 182, 0.3);
+        }
+
+        /* الصورة اللي فوق على اليسار (الشعار) */
+        .server-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #9b59b6;
+            margin: 0 auto 10px auto;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+        }
+
+        .server-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .server-brand h2 {
+            font-size: 18px;
+            color: #e8daef;
+            font-weight: 900;
+        }
+
+        .server-brand p {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        /* أزرار التنقل الجانبية الثلاثة */
+        .nav-btn {
+            background: rgba(26, 11, 46, 0.6);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+            color: #e8daef;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: right;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #8e44ad, #512e5f);
+            border-color: #9b59b6;
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+            transform: translateX(-3px);
+        }
+
+        /* شاشة عرض المحتوى (يسار القائمة) */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 580px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #e8daef;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(155, 89, 182, 0.3);
+            padding-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(155, 89, 182, 0.4);
+        }
+
+        .page-sec {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .page-sec.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* تنسيق شبكة حسابات أبو مستور */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .account-card {
+            background: rgba(26, 11, 46, 0.85);
+            border: 1px solid rgba(155, 89, 182, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .account-card h3 {
+            color: #e8daef;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .account-card p {
+            color: #d1c4e9;
+            font-size: 13px;
+        }
+
+        /* الزر البنفسجي الفخم داخل المربعات */
+        .purple-action-btn {
+            background: linear-gradient(135deg, #8e44ad, #512e5f);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .purple-action-btn:hover {
+            background: linear-gradient(135deg, #9b59b6, #6c3483);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .default-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(26, 11, 46, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(155, 89, 182, 0.3);
+        }
+        .default-box p {
+            color: #d1c4e9;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* دعم شاشات الجوال */
+        @media(max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-left: none;
+                border-bottom: 2px solid rgba(155, 89, 182, 0.3);
+                padding-left: 0;
+                padding-bottom: 15px;
+            }
+            .accounts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        
+        <!-- القائمة الجانبية (يمين الشاشة) -->
+        <div class="sidebar">
+            <div class="server-brand">
+                <div class="server-logo">
+                    <!-- ضع هنا رابط الصورة اللي تكون في اليسار فوق (الشعار) -->
+                    <img src="https://i.postimg.cc/MG67vwy4/78C07354-C767-41EB-92DF-48AFA74EEDE5.png" alt="الشعار">
+                </div>
+                <h2>أبو مستور</h2>
+                <p>حياك الله في موقع ابو مستور</p>
+            </div>
+
+            <!-- الأزرار الثلاثة المطلوبة -->
+            <button class="nav-btn active" onclick="switchSection('sec-intro', this)">تعريف أبو مستور <span>📄</span></button>
+            <button class="nav-btn" onclick="switchSection('sec-accounts', this)">حسابات أبو مستور <span>🌐</span></button>
+            <button class="nav-btn" onclick="switchSection('sec-server', this)">سيرفر أبو مستور <span>💬</span></button>
+        </div>
+
+        <!-- محتوى الشاشة (يسار القائمة) -->
+        <div class="content-area">
+
+            <!-- 1. قسم تعريف أبو مستور -->
+            <div id="sec-intro" class="page-sec active">
+                <div class="section-title">تعريف أبو مستور</div>
+                <div class="default-box">
+                    <p>ابو مستور شخص عنده شغف 
+
+من ناحية البرمجه دسكورد 
+
+تبي تنورني محتاج شي حياك 
+يوزر [ _r_i_. ]
+.</p>
+                </div>
+            </div>
+
+            <!-- 2. قسم حسابات أبو مستور (تيك توك، سناب، تيك، الخ) -->
+            <div id="sec-accounts" class="page-sec">
+                <div class="section-title">حسابات أبو مستور</div>
+                <div class="accounts-grid">
+                    
+                    <!-- حساب التيك توك -->
+                    <div class="account-card">
+                        <h3>تيك توك</h3>
+                        <p>اتشرف ف حضوركم حياكم.</p>
+                        <a href="رابط_التيك_توك_هنا" target="_blank" class="purple-action-btn">الانتقال إلى التيك توك</a>
+                    </div>
+
+                    <!-- حساب السناب -->
+                    <div class="account-card">
+                        ### سناب شات
+                        <p>ل ستريك و غيره حياكم.</p>
+                        <a href="رابط_السناب_هنا" target="_blank" class="purple-action-btn">الانتقال إلى السناب</a>
+                    </div>
+
+                    <!-- حساب التيك البديل -->
+                    <div class="account-card">
+                        <h3>تيك</h3>
+                        <p>تابعنا على المنصة لكل جديد ومميز.</p>
+                        <a href="رابط_تيك_هنا" target="_blank" class="purple-action-btn">الانتقال إلى تيك</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. قسم سيرفر أبو مستور (زر ديسكورد) -->
+            <div id="sec-server" class="page-sec">
+                <div class="section-title">سيرفر أبو مستور</div>
+                <div class="default-box">
+                    <p>انضم الآن إلى سيرفر الديسكورد الرسمي وتفاعل معنا ومع المجتمع بكل حب!</p>
+                    <a href="رابط_الديسكورد_هنا" target="_blank" class="purple-action-btn">الانتقال إلى سيرفر الديسكورد</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // دالة التنقل بين الأقسام بسلاسة
+        function switchSection(secId, btnElement) {
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            btnElement.classList.add('active');
+
+            const sections = document.querySelectorAll('.page-sec');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            setTimeout(() => {
+                document.getElementById(secId).classList.add('active');
+            }, 100);
+        }
+    </script>
+
+</body>
+</html>
